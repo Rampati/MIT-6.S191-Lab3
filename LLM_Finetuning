@@ -1,0 +1,143 @@
+
+
+# Fine-Tuning a Chatbot with Gemma 2B
+
+This project demonstrates how to fine-tune a large language model (LLM) for generating chatbot responses in a specific style. Using the [Gemma 2B](https://huggingface.co/google/gemma-2b-it) model, we adapt the model to generate responses in a stylized "leprechaun" voice using templating, tokenization, and transfer learning techniques.
+
+## 📦 Features
+
+* Load and interact with the Gemma 2B LLM.
+* Structure conversational data using prompt templating.
+* Encode/decode text using subword tokenization (BPE).
+* Generate text responses using the model.
+* Fine-tune the LLM to produce responses in a target style.
+* Evaluate the model interactively with a custom chat function.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
+
+Run the following command to install required packages:
+
+```bash
+pip install mitdeeplearning torch transformers datasets peft lion_pytorch tqdm matplotlib
+```
+
+> Note: `mitdeeplearning` contains helper utilities for working with models and datasets.
+
+---
+
+### 2. Import Libraries
+
+```python
+import mitdeeplearning as mdl
+import os, json
+import numpy as np
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+
+import torch
+from torch.nn import functional as F
+from torch.utils.data import DataLoader
+
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from datasets import load_dataset
+from peft import LoraConfig, get_peft_model
+from lion_pytorch import Lion
+```
+
+---
+
+## 🧠 Project Structure
+
+### 1. Templating & Tokenization
+
+We define input-output structures to guide the LLM during inference and training:
+
+```python
+template_without_answer = "<start_of_turn>user\n{question}<end_of_turn>\n<start_of_turn>model\n"
+template_with_answer = template_without_answer + "{answer}<end_of_turn>\n"
+```
+
+Text is tokenized using a subword-based tokenizer (`Byte-Pair Encoding`), allowing for robust and flexible input representation.
+
+### 2. Model Setup
+
+Load the tokenizer and model:
+
+```python
+model_id = "unsloth/gemma-2-2b-it"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")
+```
+
+---
+
+## 💬 Chat Interface
+
+The `chat` function lets you interact with the model by generating responses to user questions.
+
+```python
+def chat(question, max_new_tokens=32, temperature=0.7, only_answer=False):
+    prompt = template_without_answer.format(question)
+    input_ids = tokenizer(prompt, return_tensors="pt").to(model.device)
+
+    with torch.no_grad():
+        outputs = model.generate(
+            **input_ids,
+            do_sample=True,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature
+        )
+
+    output_tokens = outputs[0]
+    if only_answer:
+        output_tokens = output_tokens[input_ids['input_ids'].shape[1]:]
+
+    return tokenizer.decode(output_tokens, skip_special_tokens=True)
+```
+
+---
+
+## 🧪 Fine-Tuning
+
+The model is fine-tuned to adapt its style — for example, to speak like a leprechaun. This involves:
+
+* Loading a dataset of QA pairs (standard question, stylized answer).
+* Feeding this dataset through the model using PEFT (Parameter-Efficient Fine-Tuning) techniques.
+* Training using a suitable optimizer (e.g., Lion).
+
+---
+
+## 🎓 Educational Use
+
+This project is part of the **MIT Deep Learning for Language Models** curriculum. It’s designed to teach:
+
+* Tokenization techniques
+* Prompt design
+* Fine-tuning large language models
+* Autoregressive generation
+
+---
+
+## 📝 License
+
+This project uses open-source tools from [Hugging Face](https://huggingface.co), [MIT Deep Learning](https://deeplearning.mit.edu/), and other community resources.
+
+---
+
+## 📷 Example Output
+
+```txt
+User: What is your name?
+Model: My name is Gemma!
+```
+
+```txt
+User: What is the capital of France?
+Model: Paris.
+```
+
+
